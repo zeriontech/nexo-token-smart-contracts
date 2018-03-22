@@ -1,4 +1,5 @@
 pragma solidity ^0.4.18;
+import "./util/Token.sol"
 
 contract NexoToken is Token {
 
@@ -56,7 +57,7 @@ contract NexoToken is Token {
   // vested period 12 months
 
   /// CONSTRUCTOR
-  function NexoToken(){
+  function NexoToken() {
 
     //  Overall, 1,000,000,000 tokens are distributed
     totalSupply = withDecimals(1_000_000_000, decimals);
@@ -74,7 +75,29 @@ contract NexoToken is Token {
 
   }
 
+  /// DISTRIBUTION
+  function distributeInvestorsAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+     require(transferFrom(investorsAllocation, to, amountWithDecimals));
+  }
 
+  function distributeOverdraftAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+     require(transferFrom(OverdraftAllocation, to, amountWithDecimals));
+  }
+
+  function distributeTeamAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+     require(transferFrom(teamAllocation, to, amountWithDecimals));
+  }
+
+  function distributeAirDropAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+     require(transferFrom(airDropAllocation, to, amountWithDecimals));
+  }
+
+  function distributeAdvisersAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+     require(transferFrom(advisersAllocation, to, amountWithDecimals));
+  }
+
+
+  // TODO add vesting allowed
 
 
 }
