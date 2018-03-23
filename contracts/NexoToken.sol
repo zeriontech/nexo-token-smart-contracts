@@ -1,7 +1,15 @@
 pragma solidity 0.4.19;
 
+//
+// This source file is part of the nexo-contracts open source project
+// Copyright 2018 Zerion LLC <inbox@zerion.io>
+// Licensed under Apache License v2.0
+//
+
 import "./utils/Token.sol";
 
+/// @title Token contract - Implements Standard ERC20 Token for Current project.
+/// @author Vladimir Tidva - <vladimir@zerion.io>
 contract NexoToken is Token {
 
   /// TOKEN META DATA
@@ -80,8 +88,9 @@ contract NexoToken is Token {
 
     // unlocking funds without vesting
     allowed[investorsAllocation][msg.sender] = balanceOf(investorsAllocation);
-    allowed[airDropAllocation][msg.sender] = withDecimals(10000000, decimals);
-    allowed[advisersAllocation][msg.sender] = withDecimals(25000000, decimals);
+    allowed[airDropAllocation][msg.sender] = withDecimals(10000002, decimals);
+    allowed[advisersAllocation][msg.sender] = withDecimals(25000008, decimals);
+    allowed[overdraftAllocation][msg.sender] = withDecimals(4, decimals);
 
   }
 
@@ -109,7 +118,7 @@ contract NexoToken is Token {
   /// VESTING UNLOCKING
   function unlockOverdraft() public onlyOwner {
     // 6 months cliff then monthly vesting
-    // 182 days it is 6 months or half a year
+    // 30 days it is 1 months
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForOverdraft);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForOverdraft);
@@ -119,8 +128,8 @@ contract NexoToken is Token {
   }
 
   function unlockTeam() public onlyOwner {
-    // 182 days it is 6 months or half a year
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 182 days) -  numberOfPastWithdrawalsForTeam);
+    // 3 month vest
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForTeam);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForTeam);
     uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(14062500, decimals), countOfAllowedAndUnspentWithdraws);
@@ -129,8 +138,8 @@ contract NexoToken is Token {
   }
 
   function unlockAirDrop() public onlyOwner {
-    // 182 days it is 6 months or half a year
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 182 days) -  numberOfPastWithdrawalsForAirDrop);
+    // 3 month vest
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForAirDrop);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAirDrop);
     uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(16666666, decimals), countOfAllowedAndUnspentWithdraws);
@@ -139,8 +148,8 @@ contract NexoToken is Token {
   }
 
   function unlockAdvisers() public onlyOwner {
-    // 182 days it is 6 months or half a year
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 182 days) -  numberOfPastWithdrawalsForAdvisers);
+    // monthly
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForAdvisers);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAdvisers);
     uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(13750000, decimals), countOfAllowedAndUnspentWithdraws);
