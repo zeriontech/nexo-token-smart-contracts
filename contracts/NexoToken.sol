@@ -8,7 +8,7 @@ pragma solidity 0.4.19;
 
 import "./utils/Token.sol";
 
-/// @title Token contract - Implements Standard ERC20 Token for Current project.
+/// @title Token contract - Implements Standard ERC20 Token for NEXO project.
 /// @author Vladimir Tidva - <vladimir@zerion.io>
 contract NexoToken is Token {
 
