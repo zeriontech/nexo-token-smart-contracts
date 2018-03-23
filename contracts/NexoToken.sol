@@ -7,7 +7,7 @@ contract NexoToken is Token {
   /// TOKEN META DATA
   string constant public name = "NEXO";
   string constant public symbol = "NXT";  //  TODO rename
-  uint8 constant public decimals = 8;
+  uint8 constant public decimals = 18;
 
   /// UNVESTED ALLOCATIONS
   address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
@@ -19,38 +19,49 @@ contract NexoToken is Token {
 
   /*** Overdraft Funding Reserves ***/
   address overdraftAllocation = address(0x1111111111111111111111111111111111111111);
-  uint256 numberOfPastWithdrawalsForOverdraft = 0;
-  uint8 numberOfVestingPeriodsForOverdraft = 2;
+  uint256 numberOfPastWithdrawalsForOverdraft = 6;  // 6 month cliff
+  uint8 numberOfVestingPeriodsForOverdraft = 12;
+  uint256 overdraftPartition = withDecimals(41666666, dicimals);
+  // Each month with 6 month cliff
   // 250,000,000 - 25% - will be vested
-  // 2 times by 125,000,000
+  // 6 times by 41666666
+  // 4 tokens will be unlocked without vesting because of dividing
+  // 4 + 6 * 41666666 = 250,000,000
   // vested period 12 months
 
   /*** Team Funding Reserves ***/
   address teamAllocation  = address(0x2222222222222222222222222222222222222222);
   uint256 numberOfPastWithdrawalsForTeam = 0;
-  uint8 numberOfVestingPeriodsForTeam = 8;
+  uint8 numberOfVestingPeriodsForTeam = 16;
+  uint256 teamPartition = withDecimals(7031250, dicimals);
+  // Each 3 month
   // 112,500,000 - 11.25% - will be vested
-  // 8 times by 14,062,500
+  // 16 times by 7,031,250
   // vested period 48 months
 
   /*** AirDrop Funding Reserves ***/
   address airDropAllocation  = address(0x3333333333333333333333333333333333333333);
   uint256 numberOfPastWithdrawalsForAirDrop = 0;
   uint8 numberOfVestingPeriodsForAirDrop = 3;
-  // total 6,000,000 - 6%
-  // 10,000,000 - 1% - will be distributed without vesting
-  // 50,000,000 - 5% - will be vested
-  // 3 times by 16 666 666
+  uint256 airDropPartition = withDecimals(8333333, dicimals);
+  // Each 3 month
+  // total 60,000,000 - 6%
+  // 10,000,002 - 1% - will be distributed without vesting
+  // 2 tokens will be unlocked without vesting because of dividing
+  // 49,999,998 - 5% - will be vested
+  // 6 times by 8,333,333
   // vested period 18 months
 
   /*** Advisers Funding Reserves ***/
   address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
   uint256 numberOfPastWithdrawalsForAdvisers = 0;
-  uint8 numberOfVestingPeriodsForAdvisers = 2;
+  uint8 numberOfVestingPeriodsForAdvisers = 12;
+  uint256 AdvisersPartition = withDecimals(2291666, dicimals);
+  // Each month
   // total 52,500,000 - 5.25%
-  // 25,000,000 - will be distributed without vesting
-  // 27,500,000 - will be vested
-  // 2 times by 13 750 000
+  // 25,000,008 - will be distributed without vesting
+  // 27 499 992 - will be vested (2291666*12)
+  // 12 times by 2,291,666
   // vested period 12 months
 
   /// CONSTRUCTOR
@@ -97,8 +108,9 @@ contract NexoToken is Token {
 
   /// VESTING UNLOCKING
   function unlockOverdraft() public onlyOwner {
+    // 6 months cliff then monthly vesting
     // 182 days it is 6 months or half a year
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 182 days) -  numberOfPastWithdrawalsForOverdraft);
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForOverdraft);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForOverdraft);
     uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(125000000, decimals), countOfAllowedAndUnspentWithdraws);
