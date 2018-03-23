@@ -4,11 +4,8 @@ import "./utils/Token.sol";
 
 contract NexoToken is Token {
 
-  /*
-   * Token meta data
-   */
+  /// TOKEN META DATA
   string constant public name = "NEXO";
-
   string constant public symbol = "NXT";  //  TODO rename
   uint8 constant public decimals = 8;
 
