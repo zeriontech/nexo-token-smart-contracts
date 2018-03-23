@@ -50,7 +50,7 @@ contract NexoToken is Token {
   /*** AirDrop Funding Reserves ***/
   address airDropAllocation  = address(0x3333333333333333333333333333333333333333);
   uint256 numberOfPastWithdrawalsForAirDrop = 0;
-  uint8 numberOfVestingPeriodsForAirDrop = 3;
+  uint8 numberOfVestingPeriodsForAirDrop = 6;
   uint256 airDropPartition = withDecimals(8333333, dicimals);
   // Each 3 month
   // total 60,000,000 - 6%
@@ -68,6 +68,7 @@ contract NexoToken is Token {
   // Each month
   // total 52,500,000 - 5.25%
   // 25,000,008 - will be distributed without vesting
+  // 8 tokens will be unlocked without vesting because of dividing
   // 27 499 992 - will be vested (2291666*12)
   // 12 times by 2,291,666
   // vested period 12 months
