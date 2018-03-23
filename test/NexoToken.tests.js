@@ -35,10 +35,26 @@ describe('Unvested distribution', function () {
   it('Should distribute tokens to investorAddress from advisers Allocation', async function () {
     await contract.distributeAdvisersAllocation(investorAddress, AdvisersUnvestedTokens);
     });
-  it('Should check total Unvested tokens', async function () {
+  it('Should check total Unvested tokens ballance', async function () {
     const ivestorBallance = await contract.balanceOf(investorAddress)
     ivestorBallance.should.be.bignumber.equal(totalUnvestedTokens);
     });
+  it('Shouldn\'t distribute tokens to investorAddress from Investors Allocation more then unlocked', async function () {
+      //Deploy contract
+      contract = await token.new();
+      await contract.distributeInvestorsAllocation(investorAddress, investorsAllocation);
+      });
+  it('Shouldn\'tdistribute tokens to investorAddress from Air Allocation more then unlocked', async function () {
+      await contract.distributeAirDropAllocation(investorAddress, AirDropUnvestedTokens);
+      });
+  it('Shouldn\'t distribute tokens to investorAddress from advisers Allocation more then unlocked', async function () {
+      await contract.distributeAdvisersAllocation(investorAddress, AdvisersUnvestedTokens);
+      });
+  it('Should check total Unvested tokens ballance, it mustn\'t change', async function () {
+      const ivestorBallance = await contract.balanceOf(investorAddress)
+      ivestorBallance.should.be.bignumber.equal(totalUnvestedTokens);
+      });
+
 
   });
 });
