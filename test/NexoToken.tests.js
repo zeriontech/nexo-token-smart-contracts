@@ -1,7 +1,7 @@
 import assertRevert from './helpers/assertRevert';
 
 var token = artifacts.require('../contracts/NexoToken.sol');
-const increaseTime = require('./utils/time_travel');
+const increaseTime = require('./helpers/time_travel');
 const BigNumber = web3.BigNumber;
 
 require('chai')
