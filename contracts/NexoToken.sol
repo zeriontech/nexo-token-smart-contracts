@@ -17,6 +17,8 @@ contract NexoToken is Token {
   string constant public symbol = "NXT";  //  TODO rename
   uint8 constant public decimals = 18;
 
+  event MONTH(uint256 number);
+
   /// UNVESTED ALLOCATIONS
   address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
   // 525,000,000 will be distributed without vesting 52.50%
@@ -27,8 +29,8 @@ contract NexoToken is Token {
 
   /*** Overdraft Funding Reserves ***/
   address overdraftAllocation = address(0x1111111111111111111111111111111111111111);
-  uint256 numberOfPastWithdrawalsForOverdraft = 6;  // 6 month cliff
-  uint8 numberOfVestingPeriodsForOverdraft = 12;
+  uint256 numberOfPastWithdrawalsForOverdraft = 5;  // 6 month cliff
+  uint8 numberOfVestingPeriodsForOverdraft = 11;
   uint256 overdraftPartition = withDecimals(41666666, decimals);
   // Each month with 6 month cliff
   // 250,000,000 - 25% - will be vested
@@ -121,7 +123,7 @@ contract NexoToken is Token {
     // 6 months cliff then monthly vesting
     // 30 days it is 1 months
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForOverdraft);
-
+    require(uint((now - vestingStart )/ 30 days) <= numberOfVestingPeriodsForOverdraft);
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForOverdraft);
     uint256 countOfAllowedTokens =  SafeMath.mul(overdraftPartition, countOfAllowedAndUnspentWithdraws);
     allowed[overdraftAllocation][msg.sender] += countOfAllowedTokens;
@@ -130,8 +132,8 @@ contract NexoToken is Token {
 
   function unlockTeam() public onlyOwner {
     // 3 month vest
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForTeam);
-
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart) / (3 * 30 days)) -  numberOfPastWithdrawalsForTeam);
+    require(uint((now - vestingStart) / (3 * 30 days)) <= numberOfVestingPeriodsForTeam);
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForTeam);
     uint256 countOfAllowedTokens =  SafeMath.mul(teamPartition, countOfAllowedAndUnspentWithdraws);
     allowed[teamAllocation][msg.sender] += countOfAllowedTokens;
@@ -140,22 +142,23 @@ contract NexoToken is Token {
 
   function unlockAirDrop() public onlyOwner {
     // 3 month vest
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForAirDrop);
-
+    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart) / (3 * 30 days)) -  numberOfPastWithdrawalsForAirDrop);
+    require(uint((now - vestingStart) / (3 * 30 days)) <= numberOfVestingPeriodsForAirDrop);
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAirDrop);
     uint256 countOfAllowedTokens =  SafeMath.mul(airDropPartition, countOfAllowedAndUnspentWithdraws);
     allowed[airDropAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
+    numberOfPastWithdrawalsForAirDrop += countOfAllowedAndUnspentWithdraws;
   }
 
   function unlockAdvisers() public onlyOwner {
+    MONTH(uint((now - vestingStart)/ 30 days));
     // monthly
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForAdvisers);
-
+    require(uint((now - vestingStart) / 30 days) <= numberOfVestingPeriodsForAdvisers);
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAdvisers);
     uint256 countOfAllowedTokens =  SafeMath.mul(advisersPartition, countOfAllowedAndUnspentWithdraws);
     allowed[advisersAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
+    numberOfPastWithdrawalsForAdvisers += countOfAllowedAndUnspentWithdraws;
   }
 
 
