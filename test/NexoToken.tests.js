@@ -757,6 +757,795 @@ describe('Should check totalSupply', function () {
         currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
         });
       });
+      describe('month 22', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 23', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 24', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 25', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 26', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 27', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 28', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 29', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 30', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 31', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 32', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 33', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 34', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 35', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 36', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 37', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 38', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 39', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 40', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 41', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 42', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 43', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 44', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 46', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 47', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should not unlock teamAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockTeam())
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+      describe('month 48', function () {
+        var a;
+        it('Should increaseTime', async function () {
+          a = increaseTime(2592360);
+        });
+        it('Should not unlock overdraftAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockOverdraft())
+        const currentOverdraftAllocation = await contract.allowance(overdraftAllocationAddress, owner);
+        currentOverdraftAllocation.should.be.bignumber.equal(overdraftAllocation);
+        });
+        it('Should unlock teamAllocation', async function () {
+        await a;
+        await contract.unlockTeam()
+        teamAllocation = await teamAllocation.plus(teamPartition);
+        const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
+        currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
+        });
+        it('Should not unlock airDropAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAirDrop())
+        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        });
+        it('Should not unlock advisersAllocation', async function () {
+        await a;
+        await assertRevert(contract.unlockAdvisers())
+        const currentAdvisersAllocation = await contract.allowance(advisersAllocationAddress, owner);
+        currentAdvisersAllocation.should.be.bignumber.equal(advisersAllocation);
+        });
+      });
+
 
 
 //  });
