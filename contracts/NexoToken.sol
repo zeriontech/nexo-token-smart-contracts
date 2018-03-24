@@ -29,7 +29,7 @@ contract NexoToken is Token {
   address overdraftAllocation = address(0x1111111111111111111111111111111111111111);
   uint256 numberOfPastWithdrawalsForOverdraft = 6;  // 6 month cliff
   uint8 numberOfVestingPeriodsForOverdraft = 12;
-  uint256 overdraftPartition = withDecimals(41666666, dicimals);
+  uint256 overdraftPartition = withDecimals(41666666, decimals);
   // Each month with 6 month cliff
   // 250,000,000 - 25% - will be vested
   // 6 times by 41666666
@@ -41,7 +41,7 @@ contract NexoToken is Token {
   address teamAllocation  = address(0x2222222222222222222222222222222222222222);
   uint256 numberOfPastWithdrawalsForTeam = 0;
   uint8 numberOfVestingPeriodsForTeam = 16;
-  uint256 teamPartition = withDecimals(7031250, dicimals);
+  uint256 teamPartition = withDecimals(7031250, decimals);
   // Each 3 month
   // 112,500,000 - 11.25% - will be vested
   // 16 times by 7,031,250
@@ -51,7 +51,7 @@ contract NexoToken is Token {
   address airDropAllocation  = address(0x3333333333333333333333333333333333333333);
   uint256 numberOfPastWithdrawalsForAirDrop = 0;
   uint8 numberOfVestingPeriodsForAirDrop = 6;
-  uint256 airDropPartition = withDecimals(8333333, dicimals);
+  uint256 airDropPartition = withDecimals(8333333, decimals);
   // Each 3 month
   // total 60,000,000 - 6%
   // 10,000,002 - 1% - will be distributed without vesting
@@ -64,7 +64,7 @@ contract NexoToken is Token {
   address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
   uint256 numberOfPastWithdrawalsForAdvisers = 0;
   uint8 numberOfVestingPeriodsForAdvisers = 12;
-  uint256 AdvisersPartition = withDecimals(2291666, dicimals);
+  uint256 advisersPartition = withDecimals(2291666, decimals);
   // Each month
   // total 52,500,000 - 5.25%
   // 25,000,008 - will be distributed without vesting
@@ -123,8 +123,8 @@ contract NexoToken is Token {
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForOverdraft);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForOverdraft);
-    uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(125000000, decimals), countOfAllowedAndUnspentWithdraws);
-    allowed[overdraftAllocation][msg.sender] = countOfAllowedTokens;
+    uint256 countOfAllowedTokens =  SafeMath.mul(overdraftPartition, countOfAllowedAndUnspentWithdraws);
+    allowed[overdraftAllocation][msg.sender] += countOfAllowedTokens;
     numberOfPastWithdrawalsForOverdraft += countOfAllowedAndUnspentWithdraws;
   }
 
@@ -133,8 +133,8 @@ contract NexoToken is Token {
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForTeam);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForTeam);
-    uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(14062500, decimals), countOfAllowedAndUnspentWithdraws);
-    allowed[teamAllocation][msg.sender] = countOfAllowedTokens;
+    uint256 countOfAllowedTokens =  SafeMath.mul(teamPartition, countOfAllowedAndUnspentWithdraws);
+    allowed[teamAllocation][msg.sender] += countOfAllowedTokens;
     numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
   }
 
@@ -143,8 +143,8 @@ contract NexoToken is Token {
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 3 * 30 days) -  numberOfPastWithdrawalsForAirDrop);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAirDrop);
-    uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(16666666, decimals), countOfAllowedAndUnspentWithdraws);
-    allowed[airDropAllocation][msg.sender] = countOfAllowedTokens;
+    uint256 countOfAllowedTokens =  SafeMath.mul(airDropPartition, countOfAllowedAndUnspentWithdraws);
+    allowed[airDropAllocation][msg.sender] += countOfAllowedTokens;
     numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
   }
 
@@ -153,8 +153,8 @@ contract NexoToken is Token {
     uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForAdvisers);
 
     require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAdvisers);
-    uint256 countOfAllowedTokens =  SafeMath.mul(withDecimals(13750000, decimals), countOfAllowedAndUnspentWithdraws);
-    allowed[advisersAllocation][msg.sender] = countOfAllowedTokens;
+    uint256 countOfAllowedTokens =  SafeMath.mul(advisersPartition, countOfAllowedAndUnspentWithdraws);
+    allowed[advisersAllocation][msg.sender] += countOfAllowedTokens;
     numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
   }
 
