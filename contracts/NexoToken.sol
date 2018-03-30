@@ -13,8 +13,8 @@ import "./utils/Token.sol";
 contract NexoToken is Token {
 
   /// TOKEN META DATA
-  string constant public name = "NEXO";
-  string constant public symbol = "NXT";  //  TODO rename
+  string constant public name = "Nexo";
+  string constant public symbol = "NEXO";
   uint8 constant public decimals = 18;
 
   event MONTH(uint256 number);
