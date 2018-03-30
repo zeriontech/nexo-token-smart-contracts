@@ -1,5 +1,10 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
 
+//
+// This source file is part of the current-contracts open source project
+// Copyright 2018 Zerion LLC
+// Licensed under Apache License v2.0
+//
 
 /// @title SafeMath contract - Math operations with safety checks.
 /// @author OpenZeppelin: https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol

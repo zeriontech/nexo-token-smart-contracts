@@ -1,4 +1,11 @@
-pragma solidity ^0.4.13;
+pragma solidity ^0.4.18;
+
+//
+// This source file is part of the current-contracts open source project
+// Copyright 2018 Zerion LLC
+// Licensed under Apache License v2.0
+//
+
 import "./AbstractToken.sol";
 import "./Owned.sol";
 
@@ -20,15 +27,12 @@ contract StandardToken is AbstractToken, Owned {
     /// @param _to Address of token receiver.
     /// @param _value Number of tokens to transfer.
     function transfer(address _to, uint256 _value) public returns (bool success) {
-        if (balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]) {
-            balances[msg.sender] -= _value;
-            balances[_to] += _value;
-            Transfer(msg.sender, _to, _value);
-            return true;
-        }
-        else {
-            return false;
-        }
+        require(balances[msg.sender] >= _value);
+        assert(balances[_to] + _value > balances[_to]);
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
+        Transfer(msg.sender, _to, _value);
+        return true;
     }
 
     /// @dev Allows allowed third party to transfer tokens from one address to another. Returns success.
@@ -36,16 +40,14 @@ contract StandardToken is AbstractToken, Owned {
     /// @param _to Address to where tokens are sent.
     /// @param _value Number of tokens to transfer.
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-      if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]) {
-            balances[_to] += _value;
-            balances[_from] -= _value;
-            allowed[_from][msg.sender] -= _value;
-            Transfer(_from, _to, _value);
-            return true;
-        }
-        else {
-            return false;
-        }
+        require(balances[_from] >= _value);
+        require(allowed[_from][msg.sender] >= _value);
+        assert(balances[_to] + _value > balances[_to]);
+        balances[_to] += _value;
+        balances[_from] -= _value;
+        allowed[_from][msg.sender] -= _value;
+        Transfer(_from, _to, _value);
+        return true;
     }
 
     /// @dev Returns number of tokens owned by given address.
