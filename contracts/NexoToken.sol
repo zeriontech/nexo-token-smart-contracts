@@ -156,7 +156,7 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(overdraftCliff, overdraftPeriodLength, overdraftPeriodAmount, overdraftPeriodsNumber, overdraftUnvested);
-        uint256 spentTokens = overdraftTotal - balanceOf(overdraftAllocation)
+        uint256 spentTokens = overdraftTotal - balanceOf(overdraftAllocation);
         allowed[overdraftAllocation][msg.sender] = unlockedTokens - spentTokens;
         transferFrom(overdraftAllocation, _to, amountWithDecimals);
     }
@@ -168,7 +168,7 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(teamCliff, teamPeriodLength, teamPeriodAmount, teamPeriodsNumber, teamUnvested);
-        uint256 spentTokens = teamTotal - balanceOf(teamAllocation)
+        uint256 spentTokens = teamTotal - balanceOf(teamAllocation);
         allowed[teamAllocation][msg.sender] = unlockedTokens - spentTokens;
         transferFrom(teamAllocation, _to, amountWithDecimals);
     }
@@ -179,7 +179,7 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(airdropCliff, airdropPeriodLength, airdropPeriodAmount, airdropPeriodsNumber, airdropUnvested);
-        uint256 spentTokens = airdropTotal - balanceOf(airdropAllocation)
+        uint256 spentTokens = airdropTotal - balanceOf(airdropAllocation);
         allowed[airdropAllocation][msg.sender] = unlockedTokens - spentTokens;
         transferFrom(airdropAllocation, _to, amountWithDecimals);
     }
@@ -190,7 +190,7 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(advisersCliff, advisersPeriodLength, advisersPeriodAmount, advisersPeriodsNumber, advisersUnvested);
-        uint256 spentTokens = advisersTotal - balanceOf(advisersAllocation)
+        uint256 spentTokens = advisersTotal - balanceOf(advisersAllocation);
         allowed[advisersAllocation][msg.sender] = unlockedTokens - spentTokens;
         transferFrom(advisersAllocation, _to, amountWithDecimals);
     }

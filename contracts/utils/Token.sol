@@ -6,7 +6,6 @@ pragma solidity ^0.4.21;
 // Licensed under Apache License v2.0
 //
 
->>>>>>> 7b4c48c19dc6440fbfa373311a16c3be28cb0309
 import "./StandardToken.sol";
 import "./SafeMath.sol";
 
