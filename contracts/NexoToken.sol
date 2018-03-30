@@ -28,6 +28,7 @@ contract NexoToken is Token {
     // These tokens will be distributed without vesting
 
     address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
+    uint256 investorsTotal = withDecimals(525000000, decimals);
 
 
     /*** Overdraft Funding Reserves ***/
@@ -54,7 +55,7 @@ contract NexoToken is Token {
 
     address teamAllocation  = address(0x2222222222222222222222222222222222222222);
     uint256 teamTotal = withDecimals(112500000, decimals);
-    uint256 teamPartition = withDecimals(7031250, decimals);
+    uint256 teamPeriodAmount = withDecimals(7031250, decimals);
     uint256 teamUnvested = 0;
     uint256 teamCliff = 0;
     uint256 teamPeriodLength = 3 months;
@@ -98,23 +99,20 @@ contract NexoToken is Token {
 
     /// CONSTRUCTOR
     function NexoToken() {
-
-        vestingStart = now;
-
         //  Overall, 1,000,000,000 tokens exist
         totalSupply = withDecimals(1000000000, decimals);
 
-        balances[investorsAllocation] = withDecimals(525000000, decimals);
-        balances[overdraftAllocation] = withDecimals(250000000, decimals);
-        balances[teamAllocation] = withDecimals(112500000, decimals);
-        balances[airdropAllocation] = withDecimals(60000000, decimals);
-        balances[advisersAllocation] = withDecimals(52500000, decimals);
+        balances[investorsAllocation] = investorsTotal;
+        balances[overdraftAllocation] = overdraftTotal;
+        balances[teamAllocation] = teamTotal;
+        balances[airdropAllocation] = airdropTotal;
+        balances[advisersAllocation] = advisersTotal;
 
-        // unlocking funds without vesting
-        allowed[investorsAllocation][msg.sender] = balanceOf(investorsAllocation);
-        allowed[airdropAllocation][msg.sender] = withDecimals(10000002, decimals);
-        allowed[advisersAllocation][msg.sender] = withDecimals(25000008, decimals);
-        allowed[overdraftAllocation][msg.sender] = withDecimals(4, decimals);
+        // Unlock some tokens without vesting
+        allowed[investorsAllocation][msg.sender] = investorsTotal;
+        allowed[overdraftAllocation][msg.sender] = overdraftTotal;
+        allowed[airdropAllocation][msg.sender] = airdropUnvested;
+        allowed[advisersAllocation][msg.sender] = advisersTotal;
 
     }
 
@@ -148,13 +146,14 @@ contract NexoToken is Token {
         if (cliff != 0) cliff = cliff - periodLength; // to ensure that the first unlock occurs right after the cliff
         uint256 periods = (now - (creationTime + cliff)) / periodLength;
         periods = periods > periodsNumber ? periodsNumber : periods;
-        return unvestedAmount + (periods * unvestedAmount);
+        return unvestedAmount + (periods * periodAmount);
     }
 
     function withdrawFromAllocation(uintt256 unlockedTokens, address allocation, address _to)
         private
     {
-        uint256 availableTokens = unlockedTokens - (overdraftTotal - balanceOf(overdraftAllocation));
+        uint256 spentTokens = overdraftTotal - balanceOf(overdraftAllocation);
+        uint256 availableTokens = unlockedTokens - spentTokens;
         allowed[allocation][msg.sender] = availableTokens;
         transferFrom(allocation, _to, amountWithDecimals);
     }
