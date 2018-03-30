@@ -1,4 +1,4 @@
-<img width="360" alt="current" src="./assets/nexo.svg">
+<img width="360" hight="360" alt="current" src="./assets/nexo.svg">
 
 # NEXO Smart Contracts
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
