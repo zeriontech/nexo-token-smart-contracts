@@ -20,7 +20,7 @@ var contract;
 
 const overdraftAllocationAddress = "0x1111111111111111111111111111111111111111";
 const teamAllocationAddress = "0x2222222222222222222222222222222222222222";
-const airDropAllocationAddress = "0x3333333333333333333333333333333333333333";
+const airdropAllocationAddress = "0x3333333333333333333333333333333333333333";
 const advisersAllocationAddress  = "0x4444444444444444444444444444444444444444";
 
 
@@ -32,13 +32,13 @@ const AdvisersUnvestedTokens = new BigNumber('25000000000000000000000000');
 
 var overdraftAllocation = new BigNumber('4000000000000000000');
 var teamAllocation = new BigNumber('0000000000000000000');
-var airDropAllocation= new BigNumber('2000000000000000000');
+var airdropAllocation= new BigNumber('2000000000000000000');
 var advisersAllocation = new BigNumber('8000000000000000000');
 
 
 const overdraftPartition = new BigNumber('41666666000000000000000000');  // 1/6
 const teamPartition = new BigNumber('7031250000000000000000000');        // 1/16
-const airDropPartition = new BigNumber('8333333000000000000000000');     // 1/6
+const airdropPartition = new BigNumber('8333333000000000000000000');     // 1/6
 const advisersPartition = new BigNumber('2291666000000000000000000');     // 1/12
 
 
@@ -52,10 +52,10 @@ describe('Unvested distribution', function () {
   it('Should distribute tokens to investorAddress from Investors Allocation', async function () {
     //Deploy contract
     contract = await token.new();
-    await contract.distributeInvestorsAllocation(investorAddress, investorsAllocation);
+    await contract.distributeInvestorsTokens(investorAddress, investorsAllocation);
     });
   it('Should distribute tokens to investorAddress from Air Allocation', async function () {
-    await contract.distributeAirDropAllocation(investorAddress, AirDropUnvestedTokens);
+    await contract.distributeAirDropTokens(investorAddress, AirDropUnvestedTokens);
     });
   it('Should distribute tokens to investorAddress from advisers Allocation', async function () {
     await contract.distributeAdvisersAllocation(investorAddress, AdvisersUnvestedTokens);
@@ -70,10 +70,10 @@ describe('Should check totalSupply', function () {
   it('Shouldn\'t distribute tokens to investorAddress from Investors Allocation more then unlocked', async function () {
       //Deploy contract
       contract = await token.new();
-      await contract.distributeInvestorsAllocation(investorAddress, investorsAllocation);
+      await contract.distributeInvestorsTokens(investorAddress, investorsAllocation);
       });
   it('Shouldn\'tdistribute tokens to investorAddress from Air Allocation more then unlocked', async function () {
-      await contract.distributeAirDropAllocation(investorAddress, AirDropUnvestedTokens);
+      await contract.distributeAirDropTokens(investorAddress, AirDropUnvestedTokens);
       });
   it('Shouldn\'t distribute tokens to investorAddress from advisers Allocation more then unlocked', async function () {
       await contract.distributeAdvisersAllocation(investorAddress, AdvisersUnvestedTokens);
@@ -103,11 +103,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should  unlock advisersAllocation', async function () {
         await a;
@@ -135,11 +135,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should  unlock advisersAllocation', async function () {
         await a;
@@ -168,12 +168,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
         await contract.unlockAirDrop()
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -201,11 +201,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -233,11 +233,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -267,12 +267,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
         await contract.unlockAirDrop()
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -301,11 +301,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -334,11 +334,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -368,12 +368,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
         await contract.unlockAirDrop()
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -402,11 +402,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -435,11 +435,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -467,12 +467,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
         await contract.unlockAirDrop()
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should unlock advisersAllocation', async function () {
         await a;
@@ -499,11 +499,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -529,11 +529,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -560,12 +560,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
         await contract.unlockAirDrop()
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -591,11 +591,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -621,11 +621,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -652,12 +652,12 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should unlock airDropAllocation', async function () {
+        it('Should unlock airdropAllocation', async function () {
         await a;
         await contract.unlockAirDrop()
-        airDropAllocation = await airDropAllocation.plus(airDropPartition);
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        airdropAllocation = await airdropAllocation.plus(airdropPartition);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -683,11 +683,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -713,11 +713,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -744,11 +744,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -774,11 +774,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -804,11 +804,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -835,11 +835,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -865,11 +865,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -895,11 +895,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -926,11 +926,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -956,11 +956,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -986,11 +986,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1017,11 +1017,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1047,11 +1047,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1077,11 +1077,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1108,11 +1108,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1138,11 +1138,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1168,11 +1168,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1199,11 +1199,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1229,11 +1229,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1259,11 +1259,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1290,11 +1290,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1320,11 +1320,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1350,11 +1350,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1381,11 +1381,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1411,11 +1411,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1441,11 +1441,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1471,11 +1471,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1501,11 +1501,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;
@@ -1532,11 +1532,11 @@ describe('Should check totalSupply', function () {
         const currentTeamAllocation = await contract.allowance(teamAllocationAddress, owner);
         currentTeamAllocation.should.be.bignumber.equal(teamAllocation);
         });
-        it('Should not unlock airDropAllocation', async function () {
+        it('Should not unlock airdropAllocation', async function () {
         await a;
         await assertRevert(contract.unlockAirDrop())
-        const currentAirDropAllocation = await contract.allowance(airDropAllocationAddress, owner);
-        currentAirDropAllocation.should.be.bignumber.equal(airDropAllocation);
+        const currentAirDropAllocation = await contract.allowance(airdropAllocationAddress, owner);
+        currentAirDropAllocation.should.be.bignumber.equal(airdropAllocation);
         });
         it('Should not unlock advisersAllocation', async function () {
         await a;

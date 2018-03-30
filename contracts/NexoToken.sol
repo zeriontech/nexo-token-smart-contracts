@@ -9,157 +9,190 @@ pragma solidity 0.4.19;
 import "./utils/Token.sol";
 
 /// @title Token contract - Implements Standard ERC20 Token for NEXO project.
-/// @author Vladimir Tidva - <vladimir@zerion.io>
+/// @author Zerion - <inbox@zerion.io>
 contract NexoToken is Token {
 
-  /// TOKEN META DATA
-  string constant public name = "Nexo";
-  string constant public symbol = "NEXO";
-  uint8 constant public decimals = 18;
-
-  event MONTH(uint256 number);
-
-  /// UNVESTED ALLOCATIONS
-  address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
-  // 525,000,000 will be distributed without vesting 52.50%
-
-  /// VESTED ALLOCATIONS
-  /// Each period has 6 months cliff
-  uint256 vestingStart;                 // the date when vesting starts
-
-  /*** Overdraft Funding Reserves ***/
-  address overdraftAllocation = address(0x1111111111111111111111111111111111111111);
-  uint256 numberOfPastWithdrawalsForOverdraft = 5;  // 6 month cliff
-  uint8 numberOfVestingPeriodsForOverdraft = 11;
-  uint256 overdraftPartition = withDecimals(41666666, decimals);
-  // Each month with 6 month cliff
-  // 250,000,000 - 25% - will be vested
-  // 6 times by 41666666
-  // 4 tokens will be unlocked without vesting because of dividing
-  // 4 + 6 * 41666666 = 250,000,000
-  // vested period 12 months
-
-  /*** Team Funding Reserves ***/
-  address teamAllocation  = address(0x2222222222222222222222222222222222222222);
-  uint256 numberOfPastWithdrawalsForTeam = 0;
-  uint8 numberOfVestingPeriodsForTeam = 16;
-  uint256 teamPartition = withDecimals(7031250, decimals);
-  // Each 3 month
-  // 112,500,000 - 11.25% - will be vested
-  // 16 times by 7,031,250
-  // vested period 48 months
-
-  /*** AirDrop Funding Reserves ***/
-  address airDropAllocation  = address(0x3333333333333333333333333333333333333333);
-  uint256 numberOfPastWithdrawalsForAirDrop = 0;
-  uint8 numberOfVestingPeriodsForAirDrop = 6;
-  uint256 airDropPartition = withDecimals(8333333, decimals);
-  // Each 3 month
-  // total 60,000,000 - 6%
-  // 10,000,002 - 1% - will be distributed without vesting
-  // 2 tokens will be unlocked without vesting because of dividing
-  // 49,999,998 - 5% - will be vested
-  // 6 times by 8,333,333
-  // vested period 18 months
-
-  /*** Advisers Funding Reserves ***/
-  address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
-  uint256 numberOfPastWithdrawalsForAdvisers = 0;
-  uint8 numberOfVestingPeriodsForAdvisers = 12;
-  uint256 advisersPartition = withDecimals(2291666, decimals);
-  // Each month
-  // total 52,500,000 - 5.25%
-  // 25,000,008 - will be distributed without vesting
-  // 8 tokens will be unlocked without vesting because of dividing
-  // 27 499 992 - will be vested (2291666*12)
-  // 12 times by 2,291,666
-  // vested period 12 months
-
-  /// CONSTRUCTOR
-  function NexoToken() {
-
-    vestingStart = now;
-
-    //  Overall, 1,000,000,000 tokens are distributed
-    totalSupply = withDecimals(1000000000, decimals);
-
-    balances[investorsAllocation] = withDecimals(525000000, decimals);
-    balances[overdraftAllocation] = withDecimals(250000000, decimals);
-    balances[teamAllocation] = withDecimals(112500000, decimals);
-    balances[airDropAllocation] = withDecimals(60000000, decimals);
-    balances[advisersAllocation] = withDecimals(52500000, decimals);
-
-    // unlocking funds without vesting
-    allowed[investorsAllocation][msg.sender] = balanceOf(investorsAllocation);
-    allowed[airDropAllocation][msg.sender] = withDecimals(10000002, decimals);
-    allowed[advisersAllocation][msg.sender] = withDecimals(25000008, decimals);
-    allowed[overdraftAllocation][msg.sender] = withDecimals(4, decimals);
-
-  }
-
-  /// DISTRIBUTION
-  function distributeInvestorsAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
-    require(transferFrom(investorsAllocation, to, amountWithDecimals));
-  }
-
-  function distributeOverdraftAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
-    require(transferFrom(overdraftAllocation, to, amountWithDecimals));
-  }
-
-  function distributeTeamAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
-    require(transferFrom(teamAllocation, to, amountWithDecimals));
-  }
-
-  function distributeAirDropAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
-    require(transferFrom(airDropAllocation, to, amountWithDecimals));
-  }
-
-  function distributeAdvisersAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
-    require(transferFrom(advisersAllocation, to, amountWithDecimals));
-  }
-
-  /// VESTING UNLOCKING
-  function unlockOverdraft() public onlyOwner {
-    // 6 months cliff then monthly vesting
-    // 30 days it is 1 months
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForOverdraft);
-    require(uint((now - vestingStart )/ 30 days) <= numberOfVestingPeriodsForOverdraft);
-    require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForOverdraft);
-    uint256 countOfAllowedTokens =  SafeMath.mul(overdraftPartition, countOfAllowedAndUnspentWithdraws);
-    allowed[overdraftAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForOverdraft += countOfAllowedAndUnspentWithdraws;
-  }
-
-  function unlockTeam() public onlyOwner {
-    // 3 month vest
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart) / (3 * 30 days)) -  numberOfPastWithdrawalsForTeam);
-    require(uint((now - vestingStart) / (3 * 30 days)) <= numberOfVestingPeriodsForTeam);
-    require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForTeam);
-    uint256 countOfAllowedTokens =  SafeMath.mul(teamPartition, countOfAllowedAndUnspentWithdraws);
-    allowed[teamAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForTeam += countOfAllowedAndUnspentWithdraws;
-  }
-
-  function unlockAirDrop() public onlyOwner {
-    // 3 month vest
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart) / (3 * 30 days)) -  numberOfPastWithdrawalsForAirDrop);
-    require(uint((now - vestingStart) / (3 * 30 days)) <= numberOfVestingPeriodsForAirDrop);
-    require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAirDrop);
-    uint256 countOfAllowedTokens =  SafeMath.mul(airDropPartition, countOfAllowedAndUnspentWithdraws);
-    allowed[airDropAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForAirDrop += countOfAllowedAndUnspentWithdraws;
-  }
-
-  function unlockAdvisers() public onlyOwner {
-    MONTH(uint((now - vestingStart)/ 30 days));
-    // monthly
-    uint256 countOfAllowedAndUnspentWithdraws = uint(uint((now - vestingStart)/ 30 days) -  numberOfPastWithdrawalsForAdvisers);
-    require(uint((now - vestingStart) / 30 days) <= numberOfVestingPeriodsForAdvisers);
-    require(countOfAllowedAndUnspentWithdraws > 0 && countOfAllowedAndUnspentWithdraws <= numberOfVestingPeriodsForAdvisers);
-    uint256 countOfAllowedTokens =  SafeMath.mul(advisersPartition, countOfAllowedAndUnspentWithdraws);
-    allowed[advisersAllocation][msg.sender] += countOfAllowedTokens;
-    numberOfPastWithdrawalsForAdvisers += countOfAllowedAndUnspentWithdraws;
-  }
+    /// TOKEN META DATA
+    string constant public name = "Nexo";
+    string constant public symbol = "NEXO";
+    uint8 constant public decimals = 18;
 
 
+    /// ALOCATIONS
+    // To calculate vesting periods we assume that 1 month is always equal to 30 days 
+
+
+    /*** Initial Investors' tokens ***/
+
+    // 525,000,000 (52.50%) tokens are distributed among initial investors
+    // These tokens will be distributed without vesting
+
+    address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
+
+
+    /*** Overdraft Funding Reserves ***/
+
+    // 250,000,000 (25%) tokens will be eventually available for overdraft
+    // These tokens will be distributed monthly with a 6 month cliff within a year
+    // 41,666,666 tokens will be unlocked every month after the cliff
+    // 4 tokens will be unlocked without vesting to ensure that total amount sums up to 250,000,000.
+
+    address overdraftAllocation = address(0x1111111111111111111111111111111111111111);
+    uint256 overdraftTotal = withDecimals(250000000, decimals);
+    uint256 overdraftPeriodAmount = withDecimals(41666666, decimals);
+    uint256 overdraftUnvested = 0;
+    uint256 overdraftCliff = 6 months;
+    uint256 overdraftPeriodLength = 1 month;
+    uint8 overdraftPeriodsNumber = 6;
+
+
+    /*** Team Funding Reserves ***/
+
+    // 112,500,000 (11.25%) tokens will be eventually available for the team
+    // These tokens will be distributed every 3 month without a cliff within 4 years
+    // 7,031,250 tokens will be unlocked every 3 month
+
+    address teamAllocation  = address(0x2222222222222222222222222222222222222222);
+    uint256 teamTotal = withDecimals(112500000, decimals);
+    uint256 teamPartition = withDecimals(7031250, decimals);
+    uint256 teamUnvested = 0;
+    uint256 teamCliff = 0;
+    uint256 teamPeriodLength = 3 months;
+    uint8 teamPeriodsNumber = 16;
+
+
+
+    /*** AirDrop Funding Reserves ***/
+
+    // 60,000,000 (6%) tokens will be eventually available for the airdrop
+    // 10,000,002 tokens will be available instantly without vesting
+    // 49,999,998 tokens will be distributed every 3 month without a cliff within 18 months
+    // 8,333,333 tokens will be unlocked every 3 month
+
+
+    address airdropAllocation  = address(0x3333333333333333333333333333333333333333);
+    uint256 airdropTotal = withDecimals(60000000, decimals);
+    uint256 airdropPartition = withDecimals(8333333, decimals);
+    uint256 airdropUnvested = withDecimals(10000002, decimals);
+    uint256 airdropCliff = 0;
+    uint256 airdropPeriodLength = 3 months;
+    uint8 airdropPeriodsNumber = 6;
+
+
+
+    /*** Advisers Funding Reserves ***/
+
+    // 52,500,000 (5.25%) tokens will be eventually available for advisers
+    // 25,000,008 tokens will be available instantly without vesting
+    // 27 499 992 tokens will be distributed monthly without a cliff within 12 months
+    // 2,291,666 tokens will be unlocked every month
+
+    address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
+    uint256 advisersTotal = withDecimals(52500000, decimals);
+    uint256 advisersPartition = withDecimals(2291666, decimals);
+    uint2256 advisersUnvested = withDecimals(25000008, decimals);
+    uint256 advisersCliff = 0;
+    uint256 advisersPeriodLength = 1 month;
+    uint8 advisersPeriodsNumber = 12;
+
+
+    /// CONSTRUCTOR
+    function NexoToken() {
+
+        vestingStart = now;
+
+        //  Overall, 1,000,000,000 tokens exist
+        totalSupply = withDecimals(1000000000, decimals);
+
+        balances[investorsAllocation] = withDecimals(525000000, decimals);
+        balances[overdraftAllocation] = withDecimals(250000000, decimals);
+        balances[teamAllocation] = withDecimals(112500000, decimals);
+        balances[airdropAllocation] = withDecimals(60000000, decimals);
+        balances[advisersAllocation] = withDecimals(52500000, decimals);
+
+        // unlocking funds without vesting
+        allowed[investorsAllocation][msg.sender] = balanceOf(investorsAllocation);
+        allowed[airdropAllocation][msg.sender] = withDecimals(10000002, decimals);
+        allowed[advisersAllocation][msg.sender] = withDecimals(25000008, decimals);
+        allowed[overdraftAllocation][msg.sender] = withDecimals(4, decimals);
+
+    }
+
+    /// DISTRIBUTION
+    function distributeInvestorsTokens(address to, uint256 amountWithDecimals) public onlyOwner {
+        require(transferFrom(investorsAllocation, to, amountWithDecimals));
+    }
+
+    function distributeOverdraftTokens(address to, uint256 amountWithDecimals) public onlyOwner {
+        require(transferFrom(overdraftAllocation, to, amountWithDecimals));
+    }
+
+    function distributeTeamTokens(address to, uint256 amountWithDecimals) public onlyOwner {
+        require(transferFrom(teamAllocation, to, amountWithDecimals));
+    }
+
+    function distributeAirDropTokens(address to, uint256 amountWithDecimals) public onlyOwner {
+        require(transferFrom(airdropAllocation, to, amountWithDecimals));
+    }
+
+    function distributeAdvisersAllocation(address to, uint256 amountWithDecimals) public onlyOwner {
+        require(transferFrom(advisersAllocation, to, amountWithDecimals));
+    }
+
+    /// VESTING
+
+    function unlockedTokens(uint256 cliff, uint256 periodLength, uint256 periodAmount, uint8 periodsNumber, uint256 unvestedAmount)
+        private
+        returns (uint256) 
+    {
+        if (cliff != 0) cliff = cliff - periodLength; // to ensure that the first unlock occurs right after the cliff
+        uint256 periods = (now - (creationTime + cliff)) / periodLength;
+        periods = periods > periodsNumber ? periodsNumber : periods;
+        return unvestedAmount + (periods * unvestedAmount);
+    }
+
+    function withdrawFromAllocation(uintt256 unlockedTokens, address allocation, address _to)
+        private
+    {
+        uint256 availableTokens = unlockedTokens - (overdraftTotal - balanceOf(overdraftAllocation));
+        allowed[allocation][msg.sender] = availableTokens;
+        transferFrom(allocation, _to, amountWithDecimals);
+    }
+
+    function withdawOverdraftTokens(uint256 amountWithDecimals, address _to)
+        public
+        onlyOwner
+    {
+        uint256 unlockedTokens = 
+            unlockedTokens(overdraftCliff, overdraftPeriodLength, overdraftPeriodAmount, overdraftPeriodsNumber, overdraftUnvested);
+        withdrawFromAllocation(unlockedTokens, overdraftAllocation, _to);
+    }
+
+
+    function withdawTeamTokens(uint256 amountWithDecimals, address _to)
+        public
+        onlyOwner 
+    {
+        uint256 unlockedTokens = 
+            unlockedTokens(teamCliff, teamPeriodLength, teamPeriodAmount, teamPeriodsNumber, teamUnvested);
+        withdrawFromAllocation(unlockedTokens, teamAllocation, _to);
+    }
+
+    function witdrawAirdropTokens(uint256 amountWithDecimals, address _to)
+        public
+        onlyOwner 
+    {
+        uint256 unlockedTokens = 
+            unlockedTokens(airdropCliff, airdropPeriodLength, airdropPeriodAmount, airdropPeriodsNumber, airdropUnvested);
+        withdrawFromAllocation(unlockedTokens, airdropAllocation, _to);
+    }
+
+    function withdrawAdvisersTokens(uint256 amountWithDecimals, address _to)
+        public
+        onlyOwner 
+    {
+        uint256 unlockedTokens = 
+            unlockedTokens(advisersCliff, advisersPeriodLength, advisersPeriodAmount, advisersPeriodsNumber, advisersUnvested);
+        withdrawFromAllocation(unlockedTokens, advisersAllocation, _to);
+    }
 }
