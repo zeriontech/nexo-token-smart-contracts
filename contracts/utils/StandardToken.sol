@@ -31,7 +31,7 @@ contract StandardToken is AbstractToken, Owned {
         assert(balances[_to] + _value > balances[_to]);
         balances[msg.sender] -= _value;
         balances[_to] += _value;
-        Transfer(msg.sender, _to, _value);
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -46,7 +46,7 @@ contract StandardToken is AbstractToken, Owned {
         balances[_to] += _value;
         balances[_from] -= _value;
         allowed[_from][msg.sender] -= _value;
-        Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
         return true;
     }
 
@@ -61,7 +61,7 @@ contract StandardToken is AbstractToken, Owned {
     /// @param _value Number of approved tokens.
     function approve(address _spender, uint256 _value) public returns (bool success) {
         allowed[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 

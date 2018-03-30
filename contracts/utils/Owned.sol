@@ -28,7 +28,7 @@ contract Owned {
         public
         onlyOwner
     {
-        NewPotentialOwner(owner, _new);
+        emit NewPotentialOwner(owner, _new);
         potentialOwner = _new;
     }
 
@@ -36,7 +36,7 @@ contract Owned {
         public
         onlyPotentialOwner
     {
-        NewOwner(owner, potentialOwner);
+        emit NewOwner(owner, potentialOwner);
         owner = potentialOwner;
         potentialOwner = 0;
     }

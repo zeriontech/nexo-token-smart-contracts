@@ -45,7 +45,7 @@ contract Token is StandardToken, SafeMath {
     /// @dev Increases approved amount of tokens for spender. Returns success.
     function increaseApproval(address _spender, uint _value) public returns (bool) {
         allowed[msg.sender][_spender] = add(allowed[msg.sender][_spender], _value);
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 
@@ -57,7 +57,7 @@ contract Token is StandardToken, SafeMath {
         } else {
             allowed[msg.sender][_spender] = sub(oldValue, _value);
         }
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 }
