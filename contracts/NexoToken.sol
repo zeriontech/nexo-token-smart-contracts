@@ -42,8 +42,8 @@ contract NexoToken is Token {
     uint256 overdraftTotal = withDecimals(250000000, decimals);
     uint256 overdraftPeriodAmount = withDecimals(41666666, decimals);
     uint256 overdraftUnvested = 0;
-    uint256 overdraftCliff = 6 months;
-    uint256 overdraftPeriodLength = 1 month;
+    uint256 overdraftCliff = 6 * 30 days;
+    uint256 overdraftPeriodLength = 30 days;
     uint8 overdraftPeriodsNumber = 6;
 
 
@@ -58,7 +58,7 @@ contract NexoToken is Token {
     uint256 teamPeriodAmount = withDecimals(7031250, decimals);
     uint256 teamUnvested = 0;
     uint256 teamCliff = 0;
-    uint256 teamPeriodLength = 3 months;
+    uint256 teamPeriodLength = 3 * 30 days;
     uint8 teamPeriodsNumber = 16;
 
 
@@ -76,7 +76,7 @@ contract NexoToken is Token {
     uint256 airdropPartition = withDecimals(8333333, decimals);
     uint256 airdropUnvested = withDecimals(10000002, decimals);
     uint256 airdropCliff = 0;
-    uint256 airdropPeriodLength = 3 months;
+    uint256 airdropPeriodLength = 3 * 30 days;
     uint8 airdropPeriodsNumber = 6;
 
 
@@ -91,9 +91,9 @@ contract NexoToken is Token {
     address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
     uint256 advisersTotal = withDecimals(52500000, decimals);
     uint256 advisersPartition = withDecimals(2291666, decimals);
-    uint2256 advisersUnvested = withDecimals(25000008, decimals);
+    uint256 advisersUnvested = withDecimals(25000008, decimals);
     uint256 advisersCliff = 0;
-    uint256 advisersPeriodLength = 1 month;
+    uint256 advisersPeriodLength = 30 days;
     uint8 advisersPeriodsNumber = 12;
 
 
