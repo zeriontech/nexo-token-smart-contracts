@@ -1,5 +1,10 @@
 pragma solidity ^0.4.21;
 
+//
+// This source file is part of the current-contracts open source project
+// Copyright 2018 Zerion LLC
+// Licensed under Apache License v2.0
+//
 
 contract Owned {
 

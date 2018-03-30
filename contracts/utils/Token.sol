@@ -1,4 +1,12 @@
 pragma solidity ^0.4.21;
+
+//
+// This source file is part of the current-contracts open source project
+// Copyright 2018 Zerion LLC
+// Licensed under Apache License v2.0
+//
+
+>>>>>>> 7b4c48c19dc6440fbfa373311a16c3be28cb0309
 import "./StandardToken.sol";
 import "./SafeMath.sol";
 
@@ -32,5 +40,25 @@ contract Token is StandardToken, SafeMath {
         returns (uint)
     {
         return mul(number, pow(10, decimals));
+    }
+
+
+    /// @dev Increases approved amount of tokens for spender. Returns success.
+    function increaseApproval(address _spender, uint _value) public returns (bool) {
+        allowed[msg.sender][_spender] = add(allowed[msg.sender][_spender], _value);
+        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        return true;
+    }
+
+    /// @dev Decreases approved amount of tokens for spender. Returns success.
+    function decreaseApproval(address _spender, uint _value) public returns (bool) {
+        uint oldValue = allowed[msg.sender][_spender];
+        if (_value > oldValue) {
+            allowed[msg.sender][_spender] = 0;
+        } else {
+            allowed[msg.sender][_spender] = sub(oldValue, _value);
+        }
+        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        return true;
     }
 }
