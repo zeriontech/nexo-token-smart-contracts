@@ -144,10 +144,10 @@ contract NexoToken is Token {
         private
         returns (uint256) 
     {
-        if (cliff != 0) cliff = cliff - periodLength; // to ensure that the first unlock occurs right after the cliff
-        uint256 periods = (now - (creationTime + cliff)) / periodLength;
+        if (cliff != 0) cliff = sub(cliff, periodLength); // to ensure that the first unlock occurs right after the cliff
+        uint256 periods = div(sub(now, add(creationTime, cliff)), periodLength);
         periods = periods > periodsNumber ? periodsNumber : periods;
-        return unvestedAmount + (periods * periodAmount);
+        return add(unvestedAmount, mul(periods, periodAmount));
     }
 
     function withdawOverdraftTokens(uint256 amountWithDecimals, address _to)
@@ -156,8 +156,8 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(overdraftCliff, overdraftPeriodLength, overdraftPeriodAmount, overdraftPeriodsNumber, overdraftUnvested);
-        uint256 spentTokens = overdraftTotal - balanceOf(overdraftAllocation);
-        allowed[overdraftAllocation][msg.sender] = unlockedTokens - spentTokens;
+        uint256 spentTokens = sub(overdraftTotal, balanceOf(overdraftAllocation));
+        allowed[overdraftAllocation][msg.sender] = sub(unlockedTokens, spentTokens);
         transferFrom(overdraftAllocation, _to, amountWithDecimals);
     }
 
@@ -168,8 +168,8 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(teamCliff, teamPeriodLength, teamPeriodAmount, teamPeriodsNumber, teamUnvested);
-        uint256 spentTokens = teamTotal - balanceOf(teamAllocation);
-        allowed[teamAllocation][msg.sender] = unlockedTokens - spentTokens;
+        uint256 spentTokens = sub(teamTotal, balanceOf(teamAllocation));
+        allowed[teamAllocation][msg.sender] = sub(unlockedTokens, spentTokens);
         transferFrom(teamAllocation, _to, amountWithDecimals);
     }
 
@@ -179,8 +179,8 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(airdropCliff, airdropPeriodLength, airdropPeriodAmount, airdropPeriodsNumber, airdropUnvested);
-        uint256 spentTokens = airdropTotal - balanceOf(airdropAllocation);
-        allowed[airdropAllocation][msg.sender] = unlockedTokens - spentTokens;
+        uint256 spentTokens = sub(airdropTotal, balanceOf(airdropAllocation));
+        allowed[airdropAllocation][msg.sender] = sub(unlockedTokens, spentTokens);
         transferFrom(airdropAllocation, _to, amountWithDecimals);
     }
 
@@ -190,8 +190,8 @@ contract NexoToken is Token {
     {
         uint256 unlockedTokens = 
             calculateUnlockedTokens(advisersCliff, advisersPeriodLength, advisersPeriodAmount, advisersPeriodsNumber, advisersUnvested);
-        uint256 spentTokens = advisersTotal - balanceOf(advisersAllocation);
-        allowed[advisersAllocation][msg.sender] = unlockedTokens - spentTokens;
+        uint256 spentTokens = sub(advisersTotal, balanceOf(advisersAllocation));
+        allowed[advisersAllocation][msg.sender] = sub(unlockedTokens, spentTokens);
         transferFrom(advisersAllocation, _to, amountWithDecimals);
     }
 }
