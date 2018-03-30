@@ -1,4 +1,4 @@
-pragma solidity 0.4.19;
+pragma solidity 0.4.21;
 
 //
 // This source file is part of the nexo-contracts open source project
@@ -27,7 +27,7 @@ contract NexoToken is Token {
     // 525,000,000 (52.50%) tokens are distributed among initial investors
     // These tokens will be distributed without vesting
 
-    address investorsAllocation = address(0xffffffffffffffffffffffffffffffffffffffff);
+    address investorsAllocation = address(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 investorsTotal = withDecimals(525000000, decimals);
 
 
@@ -73,7 +73,7 @@ contract NexoToken is Token {
 
     address airdropAllocation  = address(0x3333333333333333333333333333333333333333);
     uint256 airdropTotal = withDecimals(60000000, decimals);
-    uint256 airdropPartition = withDecimals(8333333, decimals);
+    uint256 airdropPeriodAmount = withDecimals(8333333, decimals);
     uint256 airdropUnvested = withDecimals(10000002, decimals);
     uint256 airdropCliff = 0;
     uint256 airdropPeriodLength = 3 * 30 days;
@@ -90,7 +90,7 @@ contract NexoToken is Token {
 
     address advisersAllocation  = address(0x4444444444444444444444444444444444444444);
     uint256 advisersTotal = withDecimals(52500000, decimals);
-    uint256 advisersPartition = withDecimals(2291666, decimals);
+    uint256 advisersPeriodAmount = withDecimals(2291666, decimals);
     uint256 advisersUnvested = withDecimals(25000008, decimals);
     uint256 advisersCliff = 0;
     uint256 advisersPeriodLength = 30 days;
@@ -98,7 +98,7 @@ contract NexoToken is Token {
 
 
     /// CONSTRUCTOR
-    function NexoToken() {
+    function NexoToken() public {
         //  Overall, 1,000,000,000 tokens exist
         totalSupply = withDecimals(1000000000, decimals);
 
@@ -139,7 +139,8 @@ contract NexoToken is Token {
 
     /// VESTING
 
-    function unlockedTokens(uint256 cliff, uint256 periodLength, uint256 periodAmount, uint8 periodsNumber, uint256 unvestedAmount)
+    function calculateUnlockedTokens(uint256 cliff, uint256 periodLength, uint256 periodAmount, uint8 periodsNumber, uint256 unvestedAmount)
+        view
         private
         returns (uint256) 
     {
@@ -149,7 +150,7 @@ contract NexoToken is Token {
         return unvestedAmount + (periods * periodAmount);
     }
 
-    function withdrawFromAllocation(uintt256 unlockedTokens, address allocation, address _to)
+    function withdrawFromAllocation(uint256 amountWithDecimals, uint256 unlockedTokens, address allocation, address _to)
         private
     {
         uint256 spentTokens = overdraftTotal - balanceOf(overdraftAllocation);
@@ -163,8 +164,8 @@ contract NexoToken is Token {
         onlyOwner
     {
         uint256 unlockedTokens = 
-            unlockedTokens(overdraftCliff, overdraftPeriodLength, overdraftPeriodAmount, overdraftPeriodsNumber, overdraftUnvested);
-        withdrawFromAllocation(unlockedTokens, overdraftAllocation, _to);
+            calculateUnlockedTokens(overdraftCliff, overdraftPeriodLength, overdraftPeriodAmount, overdraftPeriodsNumber, overdraftUnvested);
+        withdrawFromAllocation(amountWithDecimals, unlockedTokens, overdraftAllocation, _to);
     }
 
 
@@ -173,8 +174,8 @@ contract NexoToken is Token {
         onlyOwner 
     {
         uint256 unlockedTokens = 
-            unlockedTokens(teamCliff, teamPeriodLength, teamPeriodAmount, teamPeriodsNumber, teamUnvested);
-        withdrawFromAllocation(unlockedTokens, teamAllocation, _to);
+            calculateUnlockedTokens(teamCliff, teamPeriodLength, teamPeriodAmount, teamPeriodsNumber, teamUnvested);
+        withdrawFromAllocation(amountWithDecimals, unlockedTokens, teamAllocation, _to);
     }
 
     function witdrawAirdropTokens(uint256 amountWithDecimals, address _to)
@@ -182,8 +183,8 @@ contract NexoToken is Token {
         onlyOwner 
     {
         uint256 unlockedTokens = 
-            unlockedTokens(airdropCliff, airdropPeriodLength, airdropPeriodAmount, airdropPeriodsNumber, airdropUnvested);
-        withdrawFromAllocation(unlockedTokens, airdropAllocation, _to);
+            calculateUnlockedTokens(airdropCliff, airdropPeriodLength, airdropPeriodAmount, airdropPeriodsNumber, airdropUnvested);
+        withdrawFromAllocation(amountWithDecimals, unlockedTokens, airdropAllocation, _to);
     }
 
     function withdrawAdvisersTokens(uint256 amountWithDecimals, address _to)
@@ -191,7 +192,7 @@ contract NexoToken is Token {
         onlyOwner 
     {
         uint256 unlockedTokens = 
-            unlockedTokens(advisersCliff, advisersPeriodLength, advisersPeriodAmount, advisersPeriodsNumber, advisersUnvested);
-        withdrawFromAllocation(unlockedTokens, advisersAllocation, _to);
+            calculateUnlockedTokens(advisersCliff, advisersPeriodLength, advisersPeriodAmount, advisersPeriodsNumber, advisersUnvested);
+        withdrawFromAllocation(amountWithDecimals, unlockedTokens, advisersAllocation, _to);
     }
 }
