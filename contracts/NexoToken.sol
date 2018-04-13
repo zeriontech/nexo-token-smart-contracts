@@ -123,22 +123,6 @@ contract NexoToken is Token {
 		require(transferFrom(investorsAllocation, _to, _amountWithDecimals));
 	}
 
-	function distributeOverdraftTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(overdraftAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeTeamTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(teamAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeAirDropTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(communityAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeAdvisersAllocation(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(advisersAllocation, _to, _amountWithDecimals));
-	}
-
 	/// VESTING
 
 	function withdrawOverdraftTokens(uint256 _amountWithDecimals, address _to)
