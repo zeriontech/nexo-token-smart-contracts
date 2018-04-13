@@ -27,7 +27,7 @@ contract Token is StandardToken {
 		onlyOwner
 		returns (bool success)
 	{
-        require(_token.balanceOf(address(this)) >= _value);
+		require(_token.balanceOf(address(this)) >= _value);
 		uint256 ownerBalance = _token.balanceOf(_to);
 		require(_token.transfer(_to, _value));
 
