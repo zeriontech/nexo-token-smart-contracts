@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity 0.4.21;
 
 //
 // This source file is part of the current-contracts open source project
@@ -6,38 +6,40 @@ pragma solidity ^0.4.21;
 // Licensed under Apache License v2.0
 //
 
+
 contract Owned {
 
-    address public owner = msg.sender;
-    address public potentialOwner;
+	address public owner = msg.sender;
+	address public potentialOwner;
 
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
-    }
+	modifier onlyOwner {
+		require(msg.sender == owner);
+		_;
+	}
 
-    modifier onlyPotentialOwner {
-        require(msg.sender == potentialOwner);
-        _;
-    }
+	modifier onlyPotentialOwner {
+		require(msg.sender == potentialOwner);
+		_;
+	}
 
-    event NewOwner(address old, address current);
-    event NewPotentialOwner(address old, address potential);
+	event NewOwner(address old, address current);
+	event NewPotentialOwner(address old, address potential);
 
-    function setOwner(address _new)
-        public
-        onlyOwner
-    {
-        emit NewPotentialOwner(owner, _new);
-        potentialOwner = _new;
-    }
+	function setOwner(address _new)
+		public
+		onlyOwner
+	{
+		require(_new != address(0));
+		emit NewPotentialOwner(owner, _new);
+		potentialOwner = _new;
+	}
 
-    function confirmOwnership()
-        public
-        onlyPotentialOwner
-    {
-        emit NewOwner(owner, potentialOwner);
-        owner = potentialOwner;
-        potentialOwner = 0;
-    }
+	function confirmOwnership()
+		public
+		onlyPotentialOwner
+	{
+		emit NewOwner(owner, potentialOwner);
+		owner = potentialOwner;
+		potentialOwner = address(0);
+	}
 }

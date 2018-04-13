@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity 0.4.21;
 
 //
 // This source file is part of the current-contracts open source project
@@ -6,58 +6,53 @@ pragma solidity ^0.4.21;
 // Licensed under Apache License v2.0
 //
 
-import "./StandardToken.sol";
-import "./SafeMath.sol";
+import './StandardToken.sol';
 
 
 /// @title Token contract - Implements Standard ERC20 with additional features.
 /// @author Zerion - <inbox@zerion.io>
-contract Token is StandardToken, SafeMath {
+contract Token is StandardToken {
 
-    // Time of the contract creation
-    uint public creationTime;
+	// Time of the contract creation
+	uint256 public creationTime;
 
-    function Token() public {
-        creationTime = now;
-    }
+	function Token() public {
+		/* solium-disable-next-line security/no-block-members */
+		creationTime = now;
+	}
 
+	/// @dev Owner can transfer out any accidentally sent ERC20 tokens
+	function transferERC20Token(address _tokenAddress)
+		public
+		onlyOwner
+		returns (bool success)
+	{
+		uint256 contractBalance = AbstractToken(_tokenAddress).balanceOf(address(this));
+		uint256 ownerBalance = AbstractToken(_tokenAddress).balanceOf(address(owner));
+		require(AbstractToken(_tokenAddress).transfer(owner, contractBalance));
 
-    /// @dev Owner can transfer out any accidentally sent ERC20 tokens
-    function transferERC20Token(address tokenAddress)
-        public
-        onlyOwner
-        returns (bool)
-    {
-        uint balance = AbstractToken(tokenAddress).balanceOf(this);
-        return AbstractToken(tokenAddress).transfer(owner, balance);
-    }
+		uint256 newOwnerBalance = AbstractToken(_tokenAddress).balanceOf(address(owner));
+		assert(newOwnerBalance == add(ownerBalance, contractBalance));
 
-    /// @dev Multiplies the given number by 10^(decimals)
-    function withDecimals(uint number, uint decimals)
-        internal
-        pure
-        returns (uint)
-    {
-        return mul(number, pow(10, decimals));
-    }
+		return true;
+	}
 
+	/// @dev Increases approved amount of tokens for spender. Returns success.
+	function increaseApproval(address _spender, uint256 _value) public returns (bool success) {
+		allowed[msg.sender][_spender] = add(allowed[msg.sender][_spender], _value);
+		emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+		return true;
+	}
 
-    /// @dev Increases approved amount of tokens for spender. Returns success.
-    function increaseApproval(address _spender, uint _value) public returns (bool) {
-        allowed[msg.sender][_spender] = add(allowed[msg.sender][_spender], _value);
-        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
-        return true;
-    }
-
-    /// @dev Decreases approved amount of tokens for spender. Returns success.
-    function decreaseApproval(address _spender, uint _value) public returns (bool) {
-        uint oldValue = allowed[msg.sender][_spender];
-        if (_value > oldValue) {
-            allowed[msg.sender][_spender] = 0;
-        } else {
-            allowed[msg.sender][_spender] = sub(oldValue, _value);
-        }
-        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
-        return true;
-    }
+	/// @dev Decreases approved amount of tokens for spender. Returns success.
+	function decreaseApproval(address _spender, uint256 _value) public returns (bool success) {
+		uint256 oldValue = allowed[msg.sender][_spender];
+		if (_value > oldValue) {
+			allowed[msg.sender][_spender] = 0;
+		} else {
+			allowed[msg.sender][_spender] = sub(oldValue, _value);
+		}
+		emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+		return true;
+	}
 }
