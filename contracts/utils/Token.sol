@@ -28,11 +28,11 @@ contract Token is StandardToken {
 		returns (bool success)
 	{
 		require(_token.balanceOf(address(this)) >= _value);
-		uint256 ownerBalance = _token.balanceOf(_to);
+		uint256 receiverBalance = _token.balanceOf(_to);
 		require(_token.transfer(_to, _value));
 
-		uint256 newOwnerBalance = _token.balanceOf(_to);
-		assert(newOwnerBalance == add(ownerBalance, _value));
+		uint256 receiverNewBalance = _token.balanceOf(_to);
+		assert(receiverNewBalance == add(receiverBalance, _value));
 
 		return true;
 	}
