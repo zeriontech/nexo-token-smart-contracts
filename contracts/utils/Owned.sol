@@ -29,7 +29,6 @@ contract Owned {
 		public
 		onlyOwner
 	{
-		require(_new != address(0));
 		emit NewPotentialOwner(owner, _new);
 		potentialOwner = _new;
 	}

@@ -119,29 +119,16 @@ contract NexoToken is Token {
 
 	/// DISTRIBUTION
 
-	function distributeInvestorsTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
+	function distributeInvestorsTokens(address _to, uint256 _amountWithDecimals)
+		public
+		onlyOwner
+	{
 		require(transferFrom(investorsAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeOverdraftTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(overdraftAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeTeamTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(teamAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeAirDropTokens(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(communityAllocation, _to, _amountWithDecimals));
-	}
-
-	function distributeAdvisersAllocation(address _to, uint256 _amountWithDecimals) public onlyOwner {
-		require(transferFrom(advisersAllocation, _to, _amountWithDecimals));
 	}
 
 	/// VESTING
 
-	function withdrawOverdraftTokens(uint256 _amountWithDecimals, address _to)
+	function withdrawOverdraftTokens(address _to, uint256 _amountWithDecimals)
 		public
 		onlyOwner
 	{
@@ -160,7 +147,7 @@ contract NexoToken is Token {
 		require(transferFrom(overdraftAllocation, _to, _amountWithDecimals));
 	}
 
-	function withdrawTeamTokens(uint256 _amountWithDecimals, address _to)
+	function withdrawTeamTokens(address _to, uint256 _amountWithDecimals)
 		public
 		onlyOwner 
 	{
@@ -179,7 +166,7 @@ contract NexoToken is Token {
 		require(transferFrom(teamAllocation, _to, _amountWithDecimals));
 	}
 
-	function withdrawCommunityTokens(uint256 _amountWithDecimals, address _to)
+	function withdrawCommunityTokens(address _to, uint256 _amountWithDecimals)
 		public
 		onlyOwner 
 	{
@@ -198,7 +185,7 @@ contract NexoToken is Token {
 		require(transferFrom(communityAllocation, _to, _amountWithDecimals));
 	}
 
-	function withdrawAdvisersTokens(uint256 _amountWithDecimals, address _to)
+	function withdrawAdvisersTokens(address _to, uint256 _amountWithDecimals)
 		public
 		onlyOwner 
 	{
@@ -271,6 +258,26 @@ contract NexoToken is Token {
 		}
 
 		return sub(unlockedTokens, spentTokens);
+	}
+
+	/// @dev Overrides Owned.sol function
+	function confirmOwnership()
+		public
+		onlyPotentialOwner
+	{   
+		// Forbid the old owner to distribute investors' tokens
+		allowed[investorsAllocation][owner] = 0;
+
+		// Allow the new owner to distribute investors' tokens
+		allowed[investorsAllocation][msg.sender] = balanceOf(investorsAllocation);
+
+		// Forbid the old owner to withdraw any tokens from the reserves
+		allowed[overdraftAllocation][owner] = 0;
+		allowed[teamAllocation][owner] = 0;
+		allowed[communityAllocation][owner] = 0;
+		allowed[advisersAllocation][owner] = 0;
+
+		super.confirmOwnership();
 	}
 
 	function _calculateUnlockedTokens(

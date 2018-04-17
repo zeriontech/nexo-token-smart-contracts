@@ -81,6 +81,27 @@ contract('Token', function ([owner, recipient, anotherAccount]) {
 		});
 	});
 
+	describe('transferERC20Token', function () {
+		it('withdraw mistakenly sent tokens from the contract', async function () {
+			let balance = await this.sut.balanceOf(this.sut.address);
+			assert.equal(balance.toNumber(), 0, 'Inititally the contract should not have any tokens');
+			await this.sut.transfer(this.sut.address, 10, { from: owner });
+
+			balance = await this.sut.balanceOf(this.sut.address);
+			assert.equal(balance.toNumber(), 10, 'Contract was supposed to receive 10 tokens');
+
+			let recipientBalance = await this.sut.balanceOf(recipient);
+			assert.equal(recipientBalance.toNumber(), 0, 'Inititally the recipient should not have any tokens');
+
+			await this.sut.transferERC20Token(this.sut.address, recipient, 10);
+			recipientBalance = await this.sut.balanceOf(recipient);
+			assert.equal(recipientBalance.toNumber(), 10, 'The recipient was supposed to receive 10 tokens');
+
+			balance = await this.sut.balanceOf(this.sut.address);
+			assert.equal(balance.toNumber(), 0, 'The contract should not have any tokens anymore');
+		});
+	});
+
 	describe('approve', function () {
 		describe('when the spender is not the zero address', function () {
 			const spender = recipient;
